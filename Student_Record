@@ -1,0 +1,106 @@
+- 👋 Hi, I’m @Mansoorehmad
+- 👀 I’m interested in python  ...
+- 🌱 I’m currently learning cyber security ...
+- 💞️ I’m looking to collaborate on ...
+- 📫 How to reach me ...
+
+<!---
+Mansoorehmad/Mansoorehmad is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
+import pymysql
+
+# connection
+mydb=pymysql.connect(host="localhost",user="root",password="",database="student")
+
+cur=mydb.cursor()
+
+try:
+    db="create database student"
+    cur.execute(db)
+
+    print(" Database created.")
+except:
+    print("Database Already Exist.")
+
+
+try:
+    cur.execute('''CREATE TABLE school
+    (name varchar(100),f_name varchar(100),
+    address varchar(200),phone_number varchar(15),
+    s_class varchar(10),roll_number varchar(100),
+    section varchar(100))''')
+
+    print("Table created")
+except:
+    print("Table Already Created.")
+
+
+
+
+
+while(True):
+    print('''
+    1 For Add New Student.
+    2 For Delete Student by phone_number.
+    3 For Search Student by phone_number.
+    4 For Exit...........
+    ''')
+
+    add = int(input("Enter Correct Number:-"))
+    if add == 1:
+        try:
+            print("Please Enter Correct information....")
+            name = input("Enter Name:-")
+            f_name = input("Enter F/Name:-")
+            address = input("Enter address:-")
+            phone_number = input("Enter phone_number:-")
+            s_class = input("Enter class:-")
+            roll_number = input("Enter roll_number:-")
+            section = input("Enter section:-")
+
+            i = '''INSERT INTO school(name,f_name,address,phone_number,s_class,roll_number,section)
+            values('{}','{}','{}','{}','{}','{}','{}')
+            '''.format(name, f_name, address, phone_number, s_class, roll_number, section)
+            cur.execute(i)
+            mydb.commit()
+            print("Data Inserted.")
+
+        except:
+            print("Not Inserted.")
+
+    elif add == 2:
+        try:
+            print('''
+            Please Enter correct phone_number
+            To Delete Record.................''')
+            delete = input("Enter Phone_Number TO Delete Student Record:-")
+            d = "delete from school where phone_number='" + delete + "'"
+            cur.execute(d)
+            mydb.commit()
+            print("Data Deleted.")
+        except:
+            print("Data Can not Deleted.")
+
+
+    elif add == 3:
+        try:
+            print('''
+            Please Enter correct phone_number
+            To Search Record.................''')
+            search = input("Enter Phone_Number TO Search Student Record:-")
+            s = "select * from school where phone_number='" + search + "'"
+            cur.execute(s)
+            a = cur.fetchall()
+            mydb.commit()
+            for n in a:
+                print(n)
+
+
+        except:
+            print("Data Does Not Exist.")
+
+
+    else:
+      print("Try Again Thanks...")
+      break
